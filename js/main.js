@@ -9,8 +9,7 @@ xmlhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
         var myArr = JSON.parse(this.responseText);
         myArr.forEach(element => {
-            //"<br><div class='border-bottom border-secondary'><img src =' "+element.imagem+"' class = 'imagem-feed rounded' onclick='myFunction()'" + "<p id= 'texto-piu'>"+ element.nome+' ('+ element.usernae +")</p></div>"
-            $("#feed").prepend("<br><div class='container' id='container'><div class='border-bottom border-secondary'><div class='image-wrapper float-left pr-3'><img src =' "+element.imagem+"' class = 'imagem-feed rounded' id = 'piu-image'></div> <div class='single-post-content-wrapper'><strong class = 'nome-piu' id = 'piu-name'>" + element.nome + "</strong><br><b class = 'user-piu' id = 'piu-user'>"+  element.username +"</b> <br><br><p class = 'text-muted' id='piu-text'>" + element.mensagem +  "<div class='d-flex flex-row-reverse text-right'><img src ='"+ likeIcon +  "' class = 'action-image' id='like' alt= 'Curtir Piu'></div></p></div> </div></div>")
+            $("#feed").prepend("<br><div class='container' id='container'><div class='border-bottom border-secondary'><div class='image-wrapper float-left pr-3'><img src =' "+element.imagem+"' class = 'imagem-feed rounded' id = 'piu-image'></div> <div class='single-post-content-wrapper'><strong class = 'nome-piu' id = 'piu-name'>" + element.nome + "</strong><br><b class = 'user-piu' id = 'piu-user'>"+  element.username +"</b> <br><br><p class = 'text-muted' id='piu-text'>" + element.mensagem +  "<div class='d-flex flex-row-reverse text-right'><img src ='"+ likeIcon +  "' class = 'action-image' id='like' alt= 'Curtir Piu'>&nbsp;&nbsp;<b class='text-muted' id='like-counter'>0</b></div></p></div> </div></div>")
         });
     }
 };
@@ -70,9 +69,11 @@ $(document).on("click", "#like", function() {
     let user = container.find('#piu-user').text();
     let text = container.find('#piu-text').text();
     let image = container.find('#piu-image').attr('src')
+    let counter = parseInt(container.find('#like-counter').text())+1;
+
     likeIcon = liked
     $(this).closest('#container').remove();
-    $("#feed").prepend("<br><div class='container' id='container'><div class='border-bottom border-secondary'><div class='image-wrapper float-left pr-3'><img src =' "+image+"' class = 'imagem-feed rounded' id = 'piu-image'></div> <div class='single-post-content-wrapper'><strong class = 'nome-piu' id = 'piu-name'>" + name + "</strong><br><b class = 'user-piu' id = 'piu-user'>"+  user +"</b> <br><br><p class = 'text-muted' id='piu-text'>" + text +  "<div class='d-flex flex-row-reverse text-right'><img src ='"+ likeIcon +  "' class = 'action-image' id='like' alt= 'Curtir Piu'></div></p></div> </div></div>");
+    $("#feed").prepend("<div class='container' id='container'><br><div class='border-bottom border-secondary'><div class='image-wrapper float-left pr-3'><img src =' "+image+"' class = 'imagem-feed rounded' id = 'piu-image'></div> <div class='single-post-content-wrapper'><strong class = 'nome-piu' id = 'piu-name'>" + name + "</strong><br><b class = 'user-piu' id = 'piu-user'>"+  user +"</b> <br><br><p class = 'text-muted' id='piu-text'>" + text +  "<div class='d-flex flex-row-reverse text-right'><img src ='"+ likeIcon +  "' class = 'action-image' id='like' alt= 'Curtir Piu'>&nbsp;&nbsp;<b class='text-muted' id='like-counter'>" + counter+ "</b></div></p></div> </div></div>");
     likeIcon = notLiked
 
 });
