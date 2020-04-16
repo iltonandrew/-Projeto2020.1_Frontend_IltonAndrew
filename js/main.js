@@ -1,5 +1,7 @@
 //  
-
+var notLiked = 'img/heart.svg'
+var liked = 'img/red-heart.svg'
+var likeIcon = notLiked; 
 var xmlhttp = new XMLHttpRequest();
 var url = "https://next.json-generator.com/api/json/get/EkyZfHLU_";
 
@@ -8,8 +10,7 @@ xmlhttp.onreadystatechange = function() {
         var myArr = JSON.parse(this.responseText);
         myArr.forEach(element => {
             //"<br><div class='border-bottom border-secondary'><img src =' "+element.imagem+"' class = 'imagem-feed rounded' onclick='myFunction()'" + "<p id= 'texto-piu'>"+ element.nome+' ('+ element.usernae +")</p></div>"
-            $("#feed").prepend("<br><div class='container' id='container'><div class='border-bottom border-secondary'><div class='image-wrapper float-left pr-3'><img src =' "+element.imagem+"' class = 'imagem-feed rounded' onclick='myFunction()'></div> <div class='single-post-content-wrapper'><strong class = 'nome-piu'>" + element.nome + "</strong><br><b class = 'user-piu'>"+  element.username +"</b> <br><br><p class = 'text-muted'>" + element.mensagem +  "</p></div> </div></div>")
-            console.log(element.imagem)
+            $("#feed").prepend("<br><div class='container' id='container'><div class='border-bottom border-secondary'><div class='image-wrapper float-left pr-3'><img src =' "+element.imagem+"' class = 'imagem-feed rounded' id = 'piu-image'></div> <div class='single-post-content-wrapper'><strong class = 'nome-piu' id = 'piu-name'>" + element.nome + "</strong><br><b class = 'user-piu' id = 'piu-user'>"+  element.username +"</b> <br><br><p class = 'text-muted' id='piu-text'>" + element.mensagem +  "<div class='d-flex flex-row-reverse text-right'><img src ='"+ likeIcon +  "' class = 'action-image' id='like' alt= 'Curtir Piu'></div></p></div> </div></div>")
         });
     }
 };
@@ -36,35 +37,42 @@ function updateCount() {
     $("#long-text-warning").remove()
     }
 }
+
+
+
 $('#texto').val()
 $('#enviar').on('click', 
     function () { 
         if ($('#texto').val().length <= 140 && $('#texto').val().length != ''){
-        $("#feed").prepend( "<br><div class='container' id='container'><div class='border-bottom border-secondary'><div class='image-wrapper float-left pr-3'><img src ='img/eu.jpg' class = 'imagem-feed rounded' onclick='myFunction()'></div> <div class='single-post-content-wrapper'><strong class = 'nome-piu'> Ilton Andrew</strong><br><b class = 'user-piu'>@Gegê</b> <br><br><p class = 'text-muted'>" + $('#texto').val() +  "</p></div> </div></div>")
+        $("#feed").prepend( "<div class='container' id='container'><br><div class='border-bottom border-secondary'><div class='image-wrapper float-left pr-3'><img src ='img/eu.jpg' class = 'imagem-feed rounded' id = 'piu-image'></div> <div class='single-post-content-wrapper'><strong class = 'nome-piu' id = 'piu-name'> Ilton Andrew</strong><br><b class = 'user-piu' id = 'piu-user'>@Gegê</b> <br><br><div class='d-flex flex-row-reverse text-right'><img src ='img/trash.svg' class = 'action-image' id='deleta' alt= 'Deletar Piu'><img src ='img/pen.svg' class = 'action-image' id='altera' alt= 'Alterar Piu'></div><p class = 'text-muted' id = 'piu-text'>"  + $('#texto').val() +  "</p></div></div></div>")
         $('#texto').val("");
-        console.log();
     }
  })
 
-// function myFunction(){
-//     console.log(this)
-// }
-// function updateCount() {
-//     if ($(this).val().length > 140){
-//         $('#characters').text('O Piu não pode exceder 140 caracteres!');
-//         $('#characters').addClass("text-danger");
-//         $('#characters').removeClass("text-muted");
 
-//     } 
-//     else{
-//     $('#characters').text($(this).val().length+'/140');
-//     $('#characters').addClass("text-muted");
-//     $('#characters').removeClass("text-danger");
-//     }
-// }
+ $(document).on("click", "#deleta", function() {
+     console.log($(this).closest('#container').find('#piu-text').text()); 
+    $(this).closest('#container').remove();
+});
 
-// $(document).ready(function() {
-//     $.each(myData, function() {
-//         $('<li>' + this.firstName + ' ' + this.lastName + '</li>').appendTo("#groups");
-//     });
-// });
+$(document).on("click", "#altera", function() {
+    var original = $(this).closest('#container').find('#piu-text').text();
+    $('#texto').val("");
+    $('#texto').val(original);
+    $(this).closest('#container').remove();
+
+});
+
+
+$(document).on("click", "#like", function() {
+    let container = $(this).closest('#container');
+    let name = container.find('#piu-name').text();
+    let user = container.find('#piu-user').text();
+    let text = container.find('#piu-text').text();
+    let image = container.find('#piu-image').attr('src')
+    likeIcon = liked
+    $(this).closest('#container').remove();
+    $("#feed").prepend("<br><div class='container' id='container'><div class='border-bottom border-secondary'><div class='image-wrapper float-left pr-3'><img src =' "+image+"' class = 'imagem-feed rounded' id = 'piu-image'></div> <div class='single-post-content-wrapper'><strong class = 'nome-piu' id = 'piu-name'>" + name + "</strong><br><b class = 'user-piu' id = 'piu-user'>"+  user +"</b> <br><br><p class = 'text-muted' id='piu-text'>" + text +  "<div class='d-flex flex-row-reverse text-right'><img src ='"+ likeIcon +  "' class = 'action-image' id='like' alt= 'Curtir Piu'></div></p></div> </div></div>");
+    likeIcon = notLiked
+
+});
