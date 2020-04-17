@@ -1,4 +1,6 @@
 //  
+// import 'bootstrap';
+
 var notLiked = 'img/heart.svg'
 var liked = 'img/red-heart.svg'
 var likeIcon = notLiked; 
@@ -77,3 +79,7 @@ $(document).on("click", "#like", function() {
     likeIcon = notLiked
 
 });
+
+function oops(){
+    alert('Under construction!')
+}

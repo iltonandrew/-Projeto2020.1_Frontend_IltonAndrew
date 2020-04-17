@@ -14,8 +14,21 @@
 }
 .action-image{
     width: 20px;
-    color:#FF9E2C;
 }
+    
 .container-destacado{
     background-color: #FFFFE0;
+}
+
+.icon-feed img{
+    width: 40px;
+    }
+.options{
+    background-color: #031D44;
+    position: absolute;
+    left: -59px;
+    border-radius: 10%;
+}
+.text-primary{
+    color: white;
 }
