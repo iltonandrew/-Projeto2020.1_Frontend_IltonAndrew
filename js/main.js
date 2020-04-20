@@ -7,11 +7,21 @@ var likeIcon = notLiked;
 var xmlhttp = new XMLHttpRequest();
 var url = "https://next.json-generator.com/api/json/get/EkyZfHLU_";
 
+function buildFeed(choice, image, name, user, text, counter) {
+    if (choice == 'loggedUser'){
+        return "<div class='container' id='container'><br><div class='border-bottom border-secondary'><div class='image-wrapper float-left pr-3'><img src ='img/eu.jpg' class = 'imagem-feed rounded' id = 'piu-image'></div> <div class='single-post-content-wrapper'><strong class = 'nome-piu' id = 'piu-name'> Ilton Andrew</strong><br><b class = 'user-piu' id = 'piu-user'>@Gegê</b> <br><br><div class='d-flex flex-row-reverse text-right'><img src ='img/trash.svg' class = 'action-image' id='deleta' alt= 'Deletar Piu'><img src ='img/pen.svg' class = 'action-image' id='altera' alt= 'Alterar Piu'></div><p class = 'text-muted' id = 'piu-text'>"  + $('#texto').val() +  "</p></div></div></div>"
+    }
+    else{
+        return "<div class='container' id='container'><br><div class='border-bottom border-secondary'><div class='image-wrapper float-left pr-3'><img src =' "+image+"' class = 'imagem-feed rounded' id = 'piu-image'></div> <div class='single-post-content-wrapper'><strong class = 'nome-piu' id = 'piu-name'>" + name + "</strong><br><b class = 'user-piu' id = 'piu-user'>"+  user +"</b> <br><br><p class = 'text-muted' id='piu-text'>" + text +  "<div class='d-flex flex-row-reverse text-right'><img src ='"+ likeIcon +  "' class = 'action-image' id='like' alt= 'Curtir Piu'>&nbsp;&nbsp;<b class='text-muted' id='like-counter'>" + counter+ "</b></div></p></div> </div></div>"
+    }
+    
+}
+
 xmlhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
         var myArr = JSON.parse(this.responseText);
         myArr.forEach(element => {
-            $("#feed").prepend("<br><div class='container' id='container'><div class='border-bottom border-secondary'><div class='image-wrapper float-left pr-3'><img src =' "+element.imagem+"' class = 'imagem-feed rounded' id = 'piu-image'></div> <div class='single-post-content-wrapper'><strong class = 'nome-piu' id = 'piu-name'>" + element.nome + "</strong><br><b class = 'user-piu' id = 'piu-user'>"+  element.username +"</b> <br><br><p class = 'text-muted' id='piu-text'>" + element.mensagem +  "<div class='d-flex flex-row-reverse text-right'><img src ='"+ likeIcon +  "' class = 'action-image' id='like' alt= 'Curtir Piu'>&nbsp;&nbsp;<b class='text-muted' id='like-counter'>0</b></div></p></div> </div></div>")
+            $("#feed").prepend(buildFeed(0 , element.imagem, element.nome, element.username , element.mensagem, 0))
         });
     }
 };
@@ -45,7 +55,7 @@ $('#texto').val()
 $('#enviar').on('click', 
     function () { 
         if ($('#texto').val().length <= 140 && $('#texto').val().length != ''){
-        $("#feed").prepend( "<div class='container' id='container'><br><div class='border-bottom border-secondary'><div class='image-wrapper float-left pr-3'><img src ='img/eu.jpg' class = 'imagem-feed rounded' id = 'piu-image'></div> <div class='single-post-content-wrapper'><strong class = 'nome-piu' id = 'piu-name'> Ilton Andrew</strong><br><b class = 'user-piu' id = 'piu-user'>@Gegê</b> <br><br><div class='d-flex flex-row-reverse text-right'><img src ='img/trash.svg' class = 'action-image' id='deleta' alt= 'Deletar Piu'><img src ='img/pen.svg' class = 'action-image' id='altera' alt= 'Alterar Piu'></div><p class = 'text-muted' id = 'piu-text'>"  + $('#texto').val() +  "</p></div></div></div>")
+        $("#feed").prepend(buildFeed('loggedUser'))
         $('#texto').val("");
     }
  })
@@ -75,7 +85,7 @@ $(document).on("click", "#like", function() {
 
     likeIcon = liked
     $(this).closest('#container').remove();
-    $("#feed").prepend("<div class='container' id='container'><br><div class='border-bottom border-secondary'><div class='image-wrapper float-left pr-3'><img src =' "+image+"' class = 'imagem-feed rounded' id = 'piu-image'></div> <div class='single-post-content-wrapper'><strong class = 'nome-piu' id = 'piu-name'>" + name + "</strong><br><b class = 'user-piu' id = 'piu-user'>"+  user +"</b> <br><br><p class = 'text-muted' id='piu-text'>" + text +  "<div class='d-flex flex-row-reverse text-right'><img src ='"+ likeIcon +  "' class = 'action-image' id='like' alt= 'Curtir Piu'>&nbsp;&nbsp;<b class='text-muted' id='like-counter'>" + counter+ "</b></div></p></div> </div></div>");
+    $("#feed").prepend(buildFeed(0, image, name, user, text, counter));
     likeIcon = notLiked
 
 });
